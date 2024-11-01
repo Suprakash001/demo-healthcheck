@@ -1,9 +1,10 @@
 name: Data Processing Workflow
 
 on:
-  schedule:
-    - cron: '0 * * * *'  # Runs every hour; adjust as needed
-  workflow_dispatch:    # Allows manual trigger of workflow
+ push:
+    branches:
+      - main
+ workflow_dispatch:
 
 jobs:
   fetch-process-upload:
