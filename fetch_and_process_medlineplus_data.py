@@ -69,7 +69,7 @@ def insert_into_postgres(data, connection):
 # Main function
 def main():
     url = os.getenv("DATA_URL")
-    print(f"url:{url}")
+    print(f"here url:{url}")
     zip_data = download_file(url)
     extracted_data = extract_zip(zip_data)
     # Connect to the PostgreSQL database
