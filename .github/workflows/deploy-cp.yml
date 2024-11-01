@@ -32,11 +32,6 @@ jobs:
 
       - name: Log Environment Variables
         run: |
-          # echo "DATA_URL: https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip"
-          # echo "DB_HOST: postgres-medlineplus-t3xk6cb502vjr.cpln.app"
-          # echo "DB_PORT: 5432"
-          # echo "DB_NAME: medlineplus"
-          # echo "DB_USER: postgres"
           echo  "DATA_URL: ${{ secrets.DATA_URL }}"
           echo  "DB_HOST: ${{ secrets.DB_HOST }}"
           echo  "DB_PORT: ${{ secrets.DB_PORT }}"
@@ -46,12 +41,6 @@ jobs:
 
       - name: Run data fetch and process script
         env:
-          # DATA_URL: https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip
-          # DB_HOST: postgres-medlineplus-t3xk6cb502vjr.cpln.app
-          # DB_PORT: 5432
-          # DB_NAME: medlineplus
-          # DB_USER: postgres
-          # DB_PASSWORD: postgres
           DATA_URL: ${{ secrets.DATA_URL }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
