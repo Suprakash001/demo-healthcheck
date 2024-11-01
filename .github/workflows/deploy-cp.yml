@@ -1,0 +1,50 @@
+name: Data Processing Workflow
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour; adjust as needed
+  workflow_dispatch:    # Allows manual trigger of workflow
+
+jobs:
+  fetch-process-upload:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          echo "Upgrading pip..."
+          python -m pip install --upgrade pip
+          echo "Installing dependencies..."
+          pip install requests psycopg2-binary
+
+      - name: Set environment variable
+        run: echo "ENVIRONMENT=development" >> $GITHUB_ENV
+
+      - name: Log Environment Variables
+        run: |
+          echo "DATA_URL: ${{ secrets.DATA_URL }}"
+          echo "DB_HOST: ${{ secrets.DB_HOST }}"
+          echo "DB_PORT: ${{ secrets.DB_PORT }}"
+          echo "DB_NAME: ${{ secrets.DB_NAME }}"
+          echo "DB_USER: ${{ secrets.DB_USER }}"
+
+      - name: Run data fetch and process script
+        env:
+          DATA_URL: ${{ secrets.DATA_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Starting data fetch and processing..."
+          python fetch_and_process_medlineplus_data.py
+          echo "Data fetch and processing completed."

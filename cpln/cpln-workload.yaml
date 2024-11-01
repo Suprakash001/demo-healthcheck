@@ -1,0 +1,71 @@
+kind: volumeset
+name: postgres-medlineplus
+description: postgres-medlineplus
+tags: {}
+spec:
+  fileSystemType: ext4
+  initialCapacity: 20
+  performanceClass: general-purpose-ssd
+  snapshots:
+    createFinalSnapshot: true
+    retentionDuration: 14d
+    schedule: 0 0 * * 6,2
+
+
+---
+kind: workload
+name: postgres-medlineplus
+description: postgres-medlineplus
+tags: {}
+spec:
+  type: serverless
+  containers:
+    - name: postgres
+      cpu: 50m
+      env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pg_data
+        - name: POSTGRES_DB
+          value: medlineplus
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_USER
+          value: postgres
+      image: postgres:15
+      inheritEnv: false
+      memory: 128Mi
+      ports:
+        - number: 5432
+          protocol: tcp
+  defaultOptions:
+    autoscaling:
+      maxConcurrency: 1000
+      maxScale: 3
+      metric: concurrency
+      minScale: 1
+      scaleToZeroDelay: 300
+      target: 100
+    capacityAI: true
+    debug: false
+    suspend: false
+    timeoutSeconds: 5
+  firewallConfig:
+    external:
+      inboundAllowCIDR:
+        - 0.0.0.0/0
+      outboundAllowCIDR:
+        - 0.0.0.0/0
+      outboundAllowHostname: []
+      outboundAllowPort: []
+    internal:
+      inboundAllowType: same-gvc
+      inboundAllowWorkload: []
+  loadBalancer:
+    direct:
+      enabled: true
+      ports:
+        - containerPort: 5432
+          externalPort: 5432
+          protocol: TCP
+          scheme: tcp
+  supportDynamicTags: false
