@@ -7,20 +7,20 @@ import xml.etree.ElementTree as ET
 
 
 # Database configuration from environment variables
-# db_config = {
-#     "host": os.getenv("DB_HOST"),
-#     "port": os.getenv("DB_PORT"),
-#     "database": os.getenv("DB_NAME"),
-#     "user": os.getenv("DB_USER"),
-#     "password": os.getenv("DB_PASSWORD")
-# }
 db_config = {
-    "host": "localhost",
-    "port": "5434",
-    "database": "medlineplus",
-    "user": "postgres",
-    "password": "postgres"
+    "host": os.getenv("DB_HOST"),
+    "port": os.getenv("DB_PORT"),
+    "database": os.getenv("DB_NAME"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD")
 }
+# db_config = {
+#     "host": "localhost",
+#     "port": "5434",
+#     "database": "medlineplus",
+#     "user": "postgres",
+#     "password": "postgres"
+# }
 
 
 def download_file(url):
@@ -76,8 +76,8 @@ def insert_into_postgres(data, connection):
 
 # Main function
 def main():
-    # url = os.getenv("DATA_URL")
-    url = "https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip"
+    url = os.getenv("DATA_URL")
+    # url = "https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip"
     zip_data = download_file(url)
     extracted_data = extract_zip(zip_data)
     # Connect to the PostgreSQL database
