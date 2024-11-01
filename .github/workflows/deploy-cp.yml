@@ -31,20 +31,20 @@ jobs:
 
       - name: Log Environment Variables
         run: |
-          echo "DATA_URL: ${{ secrets.DATA_URL }}"
-          echo "DB_HOST: ${{ secrets.DB_HOST }}"
-          echo "DB_PORT: ${{ secrets.DB_PORT }}"
-          echo "DB_NAME: ${{ secrets.DB_NAME }}"
-          echo "DB_USER: ${{ secrets.DB_USER }}"
+          echo "DATA_URL: https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip"
+          echo "DB_HOST: postgres-medlineplus-t3xk6cb502vjr.cpln.app"
+          echo "DB_PORT: 5432"
+          echo "DB_NAME: medlineplus"
+          echo "DB_USER: postgres"
 
       - name: Run data fetch and process script
         env:
-          DATA_URL: ${{ secrets.DATA_URL }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DATA_URL: https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip
+          DB_HOST: postgres-medlineplus-t3xk6cb502vjr.cpln.app
+          DB_PORT: 5432
+          DB_NAME: medlineplus
+          DB_USER: postgres
+          DB_PASSWORD: postgres
         run: |
           echo "Starting data fetch and processing..."
           python fetch_and_process_medlineplus_data.py
