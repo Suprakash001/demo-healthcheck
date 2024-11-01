@@ -5,7 +5,7 @@ import psycopg2
 import os
 import xml.etree.ElementTree as ET
 
-
+# As per Eric I'm just making a quick and dirty test quality spike for now
 # Database configuration from environment variables
 db_config = {
     "host": os.getenv("DB_HOST"),
@@ -14,14 +14,6 @@ db_config = {
     "user": os.getenv("DB_USER"),
     "password": os.getenv("DB_PASSWORD")
 }
-# db_config = {
-#     "host": "localhost",
-#     "port": "5434",
-#     "database": "medlineplus",
-#     "user": "postgres",
-#     "password": "postgres"
-# }
-
 
 def download_file(url):
     response = requests.get(url)
@@ -77,7 +69,7 @@ def insert_into_postgres(data, connection):
 # Main function
 def main():
     url = os.getenv("DATA_URL")
-    # url = "https://medlineplus.gov/xml/mplus_topics_compressed_2024-10-31.zip"
+    print(f"url:{url}")
     zip_data = download_file(url)
     extracted_data = extract_zip(zip_data)
     # Connect to the PostgreSQL database
